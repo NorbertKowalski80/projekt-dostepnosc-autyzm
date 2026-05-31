@@ -1,0 +1,165 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: yellow;
+  background:
+    repeating-linear-gradient(45deg, #ff00ff 0 20px, #00ff66 20px 40px),
+    #ff00ff;
+  font-family: "Comic Sans MS", Papyrus, fantasy;
+  overflow-x: hidden;
+}
+
+a {
+  color: cyan;
+  font-size: 31px;
+}
+
+button {
+  padding: 2px 34px;
+  color: lime;
+  background: red;
+  border: 9px dotted blue;
+  font: inherit;
+  cursor: crosshair;
+}
+
+.flash-banner {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 14px;
+  color: #fff;
+  background: #ff0000;
+  font-size: 36px;
+  text-align: center;
+  animation: blink 0.22s infinite;
+}
+
+.fake-nav {
+  display: grid;
+  grid-template-columns: 2fr 1fr 3fr 1fr;
+  gap: 3px;
+  padding: 8px;
+  color: black;
+  background: blue;
+}
+
+.fake-nav span {
+  display: block;
+  padding: 5px;
+  background: yellow;
+  transform: rotate(-4deg);
+  cursor: help;
+}
+
+.chaos {
+  padding: 11px;
+}
+
+.huge {
+  font-size: 67px;
+  line-height: 0.78;
+  text-shadow: 7px 7px 0 #0000ff;
+}
+
+.tilt {
+  transform: rotate(3deg);
+}
+
+marquee {
+  margin: 12px 0;
+  color: #000;
+  background: #00ffff;
+  font-size: 30px;
+}
+
+.noise-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.6fr 1.7fr;
+  gap: 6px;
+  align-items: start;
+}
+
+.box {
+  min-height: 150px;
+  padding: 8px;
+  border: 12px ridge #fffb00;
+  color: #111;
+  background: #ffffff;
+}
+
+.neon {
+  color: #ff0;
+  background: #050505;
+  animation: pulse 0.4s infinite alternate;
+}
+
+.spin {
+  color: #fff;
+  background: #5d00ff;
+  animation: rotate 2s linear infinite;
+}
+
+.dense {
+  color: red;
+  background: #00ff00;
+  font-size: 13px;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.unreadable {
+  color: #777;
+  background: #999;
+  font-size: 10px;
+  letter-spacing: 5px;
+}
+
+.popups {
+  position: relative;
+  left: 70px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  width: 92vw;
+  margin-top: 30px;
+}
+
+.bad-form {
+  width: 260px;
+  margin: 5px 0 80px 63%;
+  padding: 7px;
+  color: #000;
+  background: orange;
+  transform: rotate(-8deg);
+}
+
+.bad-form input {
+  width: 120px;
+  margin: 2px;
+  color: #fafafa;
+  background: #222;
+  border: 1px solid #222;
+}
+
+@keyframes blink {
+  50% {
+    color: #00ff00;
+    background: #0000ff;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
