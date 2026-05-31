@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analiza projektów</title>
+    <link rel="stylesheet" href="styles/friendly.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+    <header class="site-header">
+      <nav aria-label="Główna nawigacja">
+        <a href="index.html">Start</a>
+        <a href="friendly.html">Cicha Biblioteka</a>
+        <a href="bad.html">TurboPlan</a>
+        <a href="omowienie.html" aria-current="page">Analiza</a>
+      </nav>
+    </header>
+
+    <main id="main" class="article-layout">
+      <h1>Analiza dwóch koncepcji strony</h1>
+      <p>
+        Obie strony dotyczą tej samej sytuacji: zaplanowania wizyty w bibliotece.
+        Dzięki temu można łatwo porównać, jak sposób projektowania wpływa na
+        dostępność, komfort i użyteczność.
+      </p>
+
+      <section class="panel">
+        <h2>Cicha Biblioteka: zastosowane zasady</h2>
+        <ul>
+          <li>
+            <strong>Spokojna kolorystyka:</strong> tło jest jasne i neutralne,
+            a akcenty kolorystyczne są stonowane. To ogranicza przeciążenie
+            wzrokowe.
+          </li>
+          <li>
+            <strong>Czytelny układ:</strong> treści są podzielone na krótkie
+            sekcje, karty i listy. Użytkownik widzi, gdzie zaczyna się i kończy
+            dana informacja.
+          </li>
+          <li>
+            <strong>Prosty język:</strong> komunikaty są krótkie i konkretne,
+            np. „Przed wizytą”, „Wejście”, „Pomoc”, „Przerwa”.
+          </li>
+          <li>
+            <strong>Przewidywalna nawigacja:</strong> menu jest zawsze na górze
+            strony i ma jasne nazwy podstron.
+          </li>
+          <li>
+            <strong>Brak zbędnych bodźców:</strong> strona nie ma migających
+            animacji, automatycznego filmu ani nagłego dźwięku.
+          </li>
+          <li>
+            <strong>Dostępność klawiatury:</strong> dodano widoczny stan fokusu
+            oraz link „Przejdź do treści”, który pomaga ominąć menu.
+          </li>
+          <li>
+            <strong>Logiczna struktura HTML:</strong> użyto nagłówków, list,
+            sekcji, linków i atrybutów ARIA tam, gdzie pomagają zrozumieć układ.
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>TurboPlan: celowo złamane zasady</h2>
+        <ul>
+          <li>
+            <strong>Jaskrawe kolory:</strong> tło i elementy mają mocne,
+            konkurujące barwy, które męczą wzrok.
+          </li>
+          <li>
+            <strong>Miganie i ruch:</strong> baner, obracające się elementy i
+            przesuwający się tekst odciągają uwagę od treści.
+          </li>
+          <li>
+            <strong>Chaotyczny układ:</strong> elementy są poprzekręcane,
+            nierówno rozmieszczone i nie prowadzą użytkownika krok po kroku.
+          </li>
+          <li>
+            <strong>Nieczytelna typografia:</strong> zastosowano fonty
+            dekoracyjne, mały tekst, ciasne odstępy i zbyt duże nagłówki.
+          </li>
+          <li>
+            <strong>Niejasna nawigacja:</strong> część elementów wygląda jak
+            przypadkowy tekst, a nie jak prawdziwe linki.
+          </li>
+          <li>
+            <strong>Formularz bez etykiet:</strong> pola mają tylko placeholdery,
+            więc nie są wystarczająco jasne i gorzej działają z technologiami
+            wspomagającymi.
+          </li>
+          <li>
+            <strong>Nagłe komunikaty:</strong> po czasie pojawia się dodatkowa
+            informacja na środku ekranu, a przyciski mogą wyświetlać alerty.
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Dlaczego pierwsze rozwiązania pomagają?</h2>
+        <p>
+          Osoby w spektrum autyzmu mogą mocniej odczuwać hałas wizualny,
+          nieprzewidywalne zmiany i nadmiar informacji. Cicha Biblioteka
+          zmniejsza liczbę bodźców i decyzji podejmowanych naraz. Użytkownik
+          może skupić się na celu: sprawdzeniu, co zabrać, gdzie pójść i czego
+          spodziewać się na miejscu.
+        </p>
+        <p>
+          Taki projekt pomaga nie tylko osobom w spektrum. Jest też wygodniejszy
+          dla osób zmęczonych, zestresowanych, starszych, korzystających z telefonu
+          albo obsługujących stronę klawiaturą.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Dlaczego drugie rozwiązania przeszkadzają?</h2>
+        <p>
+          TurboPlan utrudnia korzystanie, ponieważ wiele elementów jednocześnie
+          walczy o uwagę. Użytkownik musi najpierw odfiltrować ruch, kolory,
+          duże napisy i wyskakujące komunikaty, a dopiero potem szukać właściwej
+          informacji.
+        </p>
+        <p>
+          Chaotyczny projekt zwiększa stres i ryzyko pomyłek. Może też sprawiać
+          problemy osobom z nadwrażliwością sensoryczną, zaburzeniami koncentracji,
+          problemami ze wzrokiem oraz użytkownikom czytników ekranu.
+        </p>
+      </section>
+
+      <section class="panel comparison">
+        <h2>Porównanie projektów</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Obszar</th>
+              <th>Cicha Biblioteka</th>
+              <th>TurboPlan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dostępność</td>
+              <td>Semantyczna struktura, fokus klawiatury, prosty język i czytelne linki.</td>
+              <td>Niejasne linki, brak etykiet formularza, słaba struktura i nadmiar bodźców.</td>
+            </tr>
+            <tr>
+              <td>Komfort</td>
+              <td>Spokojne kolory, brak migania, brak presji czasu i brak automatycznych dźwięków.</td>
+              <td>Miganie, ruch, krzykliwe kolory, nagłe komunikaty i przeładowanie informacją.</td>
+            </tr>
+            <tr>
+              <td>Użyteczność</td>
+              <td>Użytkownik szybko rozumie, gdzie jest, co może kliknąć i co zrobić dalej.</td>
+              <td>Użytkownik musi zgadywać znaczenie elementów i szukać informacji w chaosie.</td>
+            </tr>
+            <tr>
+              <td>Skupienie</td>
+              <td>Treść jest podzielona na małe części, więc łatwiej skupić się na jednym zadaniu.</td>
+              <td>Wiele elementów jednocześnie odciąga uwagę od głównego celu.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>Wniosek</h2>
+        <p>
+          Cicha Biblioteka jest bardziej dostępna, wygodna i przewidywalna.
+          TurboPlan pokazuje, że nawet ta sama treść może stać się trudna w
+          odbiorze, gdy projekt zawiera zbyt dużo bodźców, niejasną strukturę
+          i elementy wymuszające uwagę.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
