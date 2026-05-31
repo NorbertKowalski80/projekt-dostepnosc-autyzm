@@ -96,6 +96,14 @@ article {
   padding: 1.25rem;
 }
 
+.page-footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  color: #56646b;
+  font-size: 0.95rem;
+}
+
 .button {
   display: inline-block;
   margin-top: 0.5rem;

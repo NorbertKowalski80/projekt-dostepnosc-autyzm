@@ -1,5 +1,7 @@
 # Cicha Biblioteka i TurboPlan
 
+Autor: Norbert Kowalski
+
 Projekt zawiera dwie oryginalne koncepcje strony dla tej samej usługi:
 
 - `friendly.html` - Cicha Biblioteka, spokojna i przewidywalna strona informacyjna.

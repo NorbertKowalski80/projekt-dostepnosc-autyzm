@@ -169,6 +169,14 @@ th {
   background: #e8eee8;
 }
 
+.page-footer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  color: #59686f;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 760px) {
   body {
     font-size: 17px;
