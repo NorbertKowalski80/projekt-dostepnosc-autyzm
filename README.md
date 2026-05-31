@@ -9,13 +9,13 @@ Dodatkowo:
 
 - `index.html` - strona startowa z przejściem do obu koncepcji.
 - `omowienie.html` - analiza zastosowanych i złamanych zasad.
-- `screenshots/` - zrzuty ekranu obu wersji.
+- `friendly.png` i `bad.png` - zrzuty ekranu obu wersji.
 
 ## Zrzuty ekranu
 
-![Cicha Biblioteka](screenshots/friendly.png)
+![Cicha Biblioteka](friendly.png)
 
-![TurboPlan](screenshots/bad.png)
+![TurboPlan](bad.png)
 
 ## Hosting GitHub Pages
 
