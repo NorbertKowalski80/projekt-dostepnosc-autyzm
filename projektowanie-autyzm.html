@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projektowanie cyfrowe dla osób z autyzmem — web design</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   Calm Canvas — design system embodying its own message
+   Lora (display) + Atkinson Hyperlegible (body — accessibility-first)
+   Warm cream · Sage · Dusty blue · Caramel
+   Minimal animation, generous whitespace, predictable layout
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:        #f8f5ee;
+  --bg2:       #f0ebe0;
+  --bg3:       #e6dfce;
+  --slate:     #2c3a45;
+  --slate-l:   #3d4d5a;
+  --text:      #1f2937;
+  --muted:     #4b5566;
+  --dim:       #6b7280;
+  --sage:      #7a9170;
+  --sage-d:    #5e7458;
+  --blue:      #6b8a9b;
+  --blue-d:    #4f6c7d;
+  --caramel:   #c89262;
+  --caramel-d: #a87447;
+  --border:    rgba(31,41,55,0.09);
+  --border-d:  rgba(248,245,238,0.1);
+  --shadow:    0 1px 2px rgba(31,41,55,0.04), 0 2px 8px rgba(31,41,55,0.04);
+  --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Atkinson Hyperlegible', sans-serif;
+  background:var(--slate);
+  color:var(--text);
+  height:100vh; overflow:hidden;
+  user-select:none;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Deck ── */
+.deck { width:100%; height:100vh; position:relative; }
+
+.slide {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  padding:64px 96px 80px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .55s var(--ease);
+}
+.slide.active { opacity:1; pointer-events:all; }
+
+/* ── Soft cross-fade overlay (no harsh black flash) ── */
+.fade-overlay {
+  position:fixed; inset:0;
+  background:var(--bg);
+  opacity:0; pointer-events:none; z-index:90;
+  transition:opacity .25s var(--ease);
+}
+.fade-overlay.on { opacity:.4; }
+
+/* ═══════ TYPOGRAPHY ═══════ */
+h1 {
+  font-family:'Lora', serif;
+  font-size:3rem; font-weight:500; line-height:1.15;
+  letter-spacing:-.015em;
+  color:var(--text);
+}
+h2 {
+  font-family:'Lora', serif;
+  font-size:1.85rem; font-weight:500;
+  letter-spacing:-.01em; line-height:1.2;
+  color:var(--text); margin-bottom:1rem;
+}
+h3 {
+  font-size:.7rem; font-weight:700;
+  color:var(--caramel-d); text-transform:uppercase;
+  letter-spacing:.18em; margin-bottom:.45rem;
+}
+p { font-size:.95rem; line-height:1.75; color:var(--muted); font-weight:400; }
+strong { color:var(--text); font-weight:700; }
+em { color:var(--sage-d); font-style:normal; font-weight:700; }
+
+/* ── Label ── */
+.lbl {
+  position:absolute; top:36px; left:96px;
+  font-size:.65rem; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--dim); opacity:.7;
+}
+
+/* ── Soft rule ── */
+.rule {
+  width:48px; height:2px; background:var(--caramel);
+  margin:1rem 0; border-radius:1px;
+}
+.rule-c { margin:1rem auto; }
+
+/* ═══════ COMPONENTS ═══════ */
+
+/* Card — soft, calm */
+.card {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.4rem 1.6rem;
+  box-shadow:var(--shadow);
+}
+.card .mi { font-size:1.6rem; color:var(--sage); display:block; margin-bottom:.6rem; }
+.card h4 {
+  font-family:'Lora', serif;
+  font-size:1.1rem; font-weight:600; color:var(--text);
+  margin-bottom:.4rem; letter-spacing:-.005em;
+}
+.card p { font-size:.86rem; line-height:1.7; color:var(--muted); }
+
+.card-blue .mi { color:var(--blue); }
+.card-caramel .mi { color:var(--caramel-d); }
+
+/* Soft do/don't card */
+.card-do {
+  border-left:4px solid var(--sage);
+  background:#fff;
+}
+.card-do .mi { color:var(--sage-d); }
+.card-dont {
+  border-left:4px solid #c47a7a;
+  background:#fff;
+}
+.card-dont .mi { color:#a55a5a; }
+
+/* Grids — generous gap */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:1.6rem; width:100%; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; width:100%; }
+.tc { display:grid; grid-template-columns:1fr 1fr; gap:2.4rem; width:100%; align-items:start; }
+.tc-55 { display:grid; grid-template-columns:55% 1fr; gap:2.4rem; width:100%; align-items:start; }
+
+/* Soft list items */
+.li-list { display:flex; flex-direction:column; gap:.65rem; width:100%; }
+.li {
+  display:flex; align-items:flex-start; gap:.85rem;
+  padding:.85rem 1.1rem;
+  background:#fff;
+  border-left:3px solid var(--sage);
+  border-radius:0 6px 6px 0;
+  box-shadow:var(--shadow);
+}
+.li .mi { font-size:1rem; color:var(--sage-d); flex-shrink:0; margin-top:2px; }
+.li p { font-size:.88rem; line-height:1.65; color:var(--muted); }
+.li-blue { border-left-color:var(--blue); }
+.li-blue .mi { color:var(--blue-d); }
+.li-caramel { border-left-color:var(--caramel); }
+.li-caramel .mi { color:var(--caramel-d); }
+
+/* Soft callout box */
+.callout {
+  background:rgba(122,145,112,0.08);
+  border:1px solid rgba(122,145,112,0.18);
+  border-left:4px solid var(--sage);
+  border-radius:6px;
+  padding:1rem 1.3rem;
+}
+.callout p { font-size:.9rem; line-height:1.7; color:var(--muted); }
+
+.callout-blue {
+  background:rgba(107,138,155,0.07);
+  border-color:rgba(107,138,155,0.18);
+  border-left-color:var(--blue);
+}
+
+.callout-warm {
+  background:rgba(200,146,98,0.07);
+  border-color:rgba(200,146,98,0.18);
+  border-left-color:var(--caramel);
+}
+
+/* Stat */
+.stat { text-align:center; }
+.stat-n {
+  font-family:'Lora', serif; font-size:3.2rem;
+  font-weight:600; color:var(--caramel-d); line-height:1;
+}
+.stat-l {
+  font-size:.78rem; color:var(--muted); margin-top:.5rem;
+  letter-spacing:.04em; line-height:1.4;
+}
+
+/* Quote */
+.quote {
+  font-family:'Lora', serif;
+  font-size:1.2rem; font-style:italic; font-weight:500;
+  color:var(--slate); line-height:1.5;
+  padding:1rem 0 1rem 1.5rem;
+  border-left:3px solid var(--caramel);
+  max-width:520px;
+}
+.quote-src {
+  display:block; margin-top:.6rem;
+  font-family:'Atkinson Hyperlegible', sans-serif;
+  font-size:.78rem; font-weight:700;
+  color:var(--dim); font-style:normal;
+  letter-spacing:.04em;
+}
+
+/* Width utils */
+.w900 { max-width:900px; width:100%; }
+.w960 { max-width:960px; width:100%; }
+.w1000 { max-width:1000px; width:100%; }
+.tac { text-align:center; }
+.mt1 { margin-top:.7rem; }
+.mt2 { margin-top:1.2rem; }
+.mt3 { margin-top:1.6rem; }
+
+/* Material Icons */
+.mi { font-family:'Material Icons Round'; font-style:normal; display:inline-block; vertical-align:middle; }
+
+/* ═══════ LIGHT SLIDES ═══════ */
+.s-light {
+  background:var(--bg);
+  overflow-y:auto;
+}
+
+/* ═══════ DARK / SECTION SLIDES (soft slate, not pure black) ═══════ */
+.s-dark {
+  background:var(--slate);
+  color:#fff;
+  overflow:hidden;
+}
+.s-dark h1 { color:#fff; }
+.s-dark h2 { color:#fff; }
+.s-dark h3 { color:var(--caramel); }
+.s-dark p { color:rgba(255,255,255,0.78); }
+.s-dark strong { color:#fff; }
+.s-dark .lbl { color:rgba(255,255,255,0.45); }
+
+.s-dark::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 45%, rgba(200,146,98,0.07), transparent 70%);
+  pointer-events:none;
+}
+
+/* ═══════ TITLE SLIDE ═══════ */
+.s-title { text-align:center; }
+.s-title h1 {
+  max-width:760px; font-size:3.5rem; font-weight:500;
+  letter-spacing:-.02em; line-height:1.12;
+}
+.s-title .kicker {
+  font-size:.72rem; font-weight:700; color:var(--caramel);
+  letter-spacing:.28em; text-transform:uppercase;
+  margin-bottom:1.4rem;
+}
+.s-title .subtitle {
+  color:rgba(255,255,255,0.7); font-size:1.05rem;
+  font-weight:400; margin-top:.8rem;
+  font-family:'Lora', serif; font-style:italic;
+  max-width:520px; line-height:1.55;
+}
+
+/* ═══════ SECTION OPENER ═══════ */
+.s-section { text-align:center; }
+.s-section .sec-num {
+  font-family:'Lora', serif;
+  font-size:1.1rem; font-weight:500; line-height:1;
+  color:var(--caramel); letter-spacing:.1em;
+  margin-bottom:.4rem;
+}
+.s-section h1 {
+  font-size:2.6rem; max-width:600px;
+  font-weight:500;
+}
+.s-section p {
+  max-width:480px; text-align:center; font-size:.95rem;
+  font-style:italic; font-family:'Lora',serif;
+  color:rgba(255,255,255,0.65);
+}
+
+/* ═══════ CLOSING ═══════ */
+.s-close { text-align:center; }
+.s-close h1 { font-size:2.6rem; max-width:620px; }
+.s-close p { max-width:540px; text-align:center; }
+
+/* ═══════ REVEAL ANIMATION (subtle fade only — no slide-in) ═══════ */
+.reveal > * {
+  opacity:0;
+  transition:opacity .7s var(--ease);
+}
+.slide.active .reveal > *:nth-child(1) { opacity:1; transition-delay:.15s; }
+.slide.active .reveal > *:nth-child(2) { opacity:1; transition-delay:.30s; }
+.slide.active .reveal > *:nth-child(3) { opacity:1; transition-delay:.42s; }
+.slide.active .reveal > *:nth-child(4) { opacity:1; transition-delay:.54s; }
+.slide.active .reveal > *:nth-child(5) { opacity:1; transition-delay:.66s; }
+.slide.active .reveal > *:nth-child(6) { opacity:1; transition-delay:.78s; }
+.slide.active .reveal > *:nth-child(7) { opacity:1; transition-delay:.90s; }
+.slide.active .reveal > *:nth-child(8) { opacity:1; transition-delay:1.02s; }
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .slide, .reveal > * { transition:none !important; }
+  .slide.active .reveal > * { opacity:1; }
+}
+
+/* ═══════ PROGRESS BAR ═══════ */
+.progress-bar {
+  position:fixed; bottom:0; left:0;
+  height:2px;
+  background:var(--caramel);
+  transition:width .5s var(--ease); z-index:100;
+}
+
+/* ═══════ NAV ═══════ */
+.nav {
+  position:fixed; bottom:24px; right:48px;
+  display:flex; align-items:center; gap:.8rem; z-index:100;
+}
+.nbtn {
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.95);
+  color:var(--muted); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .25s var(--ease);
+  outline:none; backdrop-filter:blur(8px);
+}
+.nbtn:hover { border-color:var(--caramel); color:var(--caramel-d); }
+.nbtn:focus-visible { outline:2px solid var(--caramel); outline-offset:2px; }
+.nbtn .mi { font-size:16px; }
+.ncount {
+  font-size:.74rem; color:var(--dim);
+  letter-spacing:.05em; font-weight:700;
+}
+
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<!-- ═══════════ S1 — TYTUŁ ═══════════ -->
+<div class="slide s-dark s-title active" data-type="dark">
+  <div class="reveal" style="display:flex;flex-direction:column;align-items:center;">
+    <div class="kicker">Web Design · Inkluzja · Spektrum</div>
+    <h1>Projektowanie<br>dla osób z autyzmem</h1>
+    <div class="rule rule-c" style="background:var(--caramel);"></div>
+    <p class="subtitle">Jak tworzyć cyfrowe doświadczenia, które są przewidywalne, spokojne i naprawdę dostępne dla osób w spektrum.</p>
+  </div>
+</div>
+
+<!-- ═══════════ S2 — SKALA ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Wprowadzenie</span>
+  <div class="reveal w960">
+    <h3>Skala zjawiska</h3>
+    <h2>Dlaczego to ma znaczenie</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Spektrum autyzmu dotyczy szacunkowo <em>1–2% populacji</em>. To miliony osób w Polsce i Europie, które codziennie korzystają z internetu — robią zakupy, czytają wiadomości, pracują zdalnie, kontaktują się z urzędami.</p>
+        <p class="mt2">Większość stron internetowych jest projektowana <strong>bez ich uwzględnienia</strong>. Migoczące banery, agresywne kolory, niejasne komunikaty — to bariery, które dla osoby w spektrum mogą oznaczać porzucenie strony lub fizyczny dyskomfort.</p>
+      </div>
+      <div>
+        <div class="g2" style="gap:1.4rem;">
+          <div class="stat">
+            <div class="stat-n">~1.5%</div>
+            <div class="stat-l">populacji w spektrum<br>autyzmu</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n">600k+</div>
+            <div class="stat-l">osób w Polsce<br>(szacunkowo)</div>
+          </div>
+        </div>
+        <div class="callout-warm callout mt3">
+          <p><strong>Dobra wiadomość:</strong> projektowanie z myślą o spektrum poprawia doświadczenie <em>wszystkich</em> użytkowników — to klasyczny przykład „curb cut effect".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S3 — SPEKTRUM ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Wprowadzenie · Spektrum</span>
+  <div class="reveal w960">
+    <h3>Różnorodność doświadczeń</h3>
+    <h2>Czym jest spektrum</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Autyzm to <em>spektrum</em> — nie jedna kondycja, ale szerokie zróżnicowanie potrzeb. Dwie osoby w spektrum mogą mieć zupełnie inne wyzwania i preferencje.</p>
+        <div class="quote mt2">
+          „If you've met one person with autism, you've met one person with autism."
+          <span class="quote-src">— Dr. Stephen Shore</span>
+        </div>
+      </div>
+      <div>
+        <div class="li-list">
+          <div class="li li-blue"><span class="mi">tune</span><p><strong>Wrażliwość sensoryczna</strong> — niektórzy są nadwrażliwi na bodźce, inni szukają intensywnej stymulacji</p></div>
+          <div class="li li-blue"><span class="mi">psychology</span><p><strong>Style przetwarzania</strong> — niektórzy myślą wizualnie, inni wolą tekst i linearne instrukcje</p></div>
+          <div class="li li-blue"><span class="mi">forum</span><p><strong>Komunikacja</strong> — od wysokich kompetencji werbalnych po użytkowników AAC</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S4 — SECTION: WYZWANIA ═══════════ -->
+<div class="slide s-dark s-section" data-type="dark">
+  <div class="reveal" style="display:flex;flex-direction:column;align-items:center;">
+    <div class="sec-num">Część I</div>
+    <h1>Wyzwania użytkownika</h1>
+    <div class="rule rule-c" style="background:var(--caramel);"></div>
+    <p>Co utrudnia korzystanie z internetu osobom w spektrum — przeciążenie sensoryczne i kognitywne.</p>
+  </div>
+</div>
+
+<!-- ═══════════ S5 — PRZECIĄŻENIE SENSORYCZNE ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Wyzwania · Sensoryczne</span>
+  <div class="reveal w960">
+    <h3>Przeciążenie zmysłów</h3>
+    <h2>Sensory overload</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Wiele osób w spektrum przetwarza bodźce sensoryczne <em>intensywniej</em>. Strona, która dla typowego użytkownika jest „energetyczna", dla osoby w spektrum może być przytłaczająca — fizycznie męcząca, wywołująca dyskomfort.</p>
+        <div class="callout mt2">
+          <p><strong>Konsekwencja:</strong> użytkownik nie „rozprasza się" — jego mózg jest zmuszony przetwarzać wszystkie bodźce naraz. Po kilku minutach może być wyczerpany lub porzucić zadanie.</p>
+        </div>
+      </div>
+      <div>
+        <div class="li-list">
+          <div class="li"><span class="mi">flash_on</span><p><strong>Migoczące animacje, autoplay video</strong> — wymuszają ciągłą uwagę</p></div>
+          <div class="li"><span class="mi">palette</span><p><strong>Jaskrawe, nasycone kolory</strong> — neon, czerwień, agresywne kontrasty</p></div>
+          <div class="li"><span class="mi">volume_up</span><p><strong>Niespodziewane dźwięki</strong> — autoplay, powiadomienia</p></div>
+          <div class="li"><span class="mi">view_carousel</span><p><strong>Karuzele, banery, parallax</strong> — ruch, którego nie da się zatrzymać</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S6 — KOGNITYWNE ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Wyzwania · Kognitywne</span>
+  <div class="reveal w960">
+    <h3>Złożoność treści</h3>
+    <h2>Cognitive load</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Drugi obszar wyzwań to <em>przetwarzanie informacji</em>. Wiele osób w spektrum potrzebuje więcej czasu i jasnej struktury, żeby zrozumieć to, co widzi na ekranie.</p>
+        <p class="mt2">Niejednoznaczne ikony, metafory, gęsto upakowane menu, ukryte funkcje — wszystko to <strong>zwiększa wysiłek kognitywny</strong>.</p>
+      </div>
+      <div>
+        <div class="li-list">
+          <div class="li li-caramel"><span class="mi">menu_book</span><p><strong>Metafory i idiomy</strong> — „przerwij lód", „otwórz konto" mogą być rozumiane dosłownie</p></div>
+          <div class="li li-caramel"><span class="mi">visibility_off</span><p><strong>Ukryte interakcje</strong> — hover-only menu, gestures, ukryte stany</p></div>
+          <div class="li li-caramel"><span class="mi">help_outline</span><p><strong>Niejasne ikony bez etykiet</strong> — co znaczy ☰, ⋮, ▶ ?</p></div>
+          <div class="li li-caramel"><span class="mi">timer</span><p><strong>Limity czasu</strong> — sesje wygasające, formularze z timerem</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S7 — SECTION: ZASADY ═══════════ -->
+<div class="slide s-dark s-section" data-type="dark">
+  <div class="reveal" style="display:flex;flex-direction:column;align-items:center;">
+    <div class="sec-num">Część II</div>
+    <h1>Zasady projektowe</h1>
+    <div class="rule rule-c" style="background:var(--caramel);"></div>
+    <p>Sześć obszarów, w których decyzje projektanta mają największy wpływ na komfort użytkownika w spektrum.</p>
+  </div>
+</div>
+
+<!-- ═══════════ S8 — TYPOGRAFIA ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Typografia</span>
+  <div class="reveal w960">
+    <h3>01 · Czytelność</h3>
+    <h2>Typografia, która nie męczy</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <div class="li-list">
+          <div class="li"><span class="mi">text_fields</span><p><strong>Wielkość bazowa min. 16–18px</strong>, dla ważnych treści 18–20px</p></div>
+          <div class="li"><span class="mi">format_line_spacing</span><p><strong>Interlinia 1.5–1.7</strong> — przestrzeń pomaga oku „odpocząć"</p></div>
+          <div class="li"><span class="mi">format_align_left</span><p><strong>Wyrównanie do lewej</strong>, nie justify (justyfikacja tworzy nierówne odstępy między słowami)</p></div>
+          <div class="li"><span class="mi">font_download</span><p><strong>Czcionki bezszeryfowe lub humanistyczne serify</strong> — Atkinson Hyperlegible, Inter, Lora</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="callout">
+          <p><strong>Wskazówka pro:</strong> <em>Atkinson Hyperlegible</em> (autorstwa Braille Institute) i <em>OpenDyslexic</em> to fonty zaprojektowane specjalnie pod kątem czytelności dla osób z trudnościami w przetwarzaniu wzrokowym. Można je oferować jako opcję.</p>
+        </div>
+        <div class="callout-warm mt2">
+          <p><strong>Unikaj:</strong> tekstu pisanego CAPS LOCKIEM, kursywy w długich akapitach, cienkich wagi (light/thin) na małych rozmiarach.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S9 — KOLOR I KONTRAST ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Kolor</span>
+  <div class="reveal w960">
+    <h3>02 · Paleta</h3>
+    <h2>Kolor i kontrast</h2>
+    <div class="rule"></div>
+    <div class="g2 mt2">
+      <div class="card-do card">
+        <span class="mi">check_circle</span>
+        <h4>Tak — spokojnie</h4>
+        <div class="li-list" style="margin-top:.5rem;gap:.4rem;">
+          <div class="li" style="border-left-color:var(--sage);background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:var(--sage-d);">check</span><p>Kontrast min. <em>4.5:1</em> dla tekstu</p></div>
+          <div class="li" style="border-left-color:var(--sage);background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:var(--sage-d);">check</span><p>Stonowane, niskosaturowane palety</p></div>
+          <div class="li" style="border-left-color:var(--sage);background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:var(--sage-d);">check</span><p>Off-white tła zamiast czystej bieli</p></div>
+          <div class="li" style="border-left-color:var(--sage);background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:var(--sage-d);">check</span><p>Tryb ciemny jako opcja</p></div>
+        </div>
+      </div>
+      <div class="card-dont card">
+        <span class="mi">cancel</span>
+        <h4>Nie — agresywnie</h4>
+        <div class="li-list" style="margin-top:.5rem;gap:.4rem;">
+          <div class="li" style="border-left-color:#c47a7a;background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:#a55a5a;">close</span><p>Czysta biel #fff jako tło — oślepia</p></div>
+          <div class="li" style="border-left-color:#c47a7a;background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:#a55a5a;">close</span><p>Neony i wysokosaturowane czerwienie</p></div>
+          <div class="li" style="border-left-color:#c47a7a;background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:#a55a5a;">close</span><p>Kolor jako jedyny nośnik informacji</p></div>
+          <div class="li" style="border-left-color:#c47a7a;background:transparent;box-shadow:none;padding:.4rem 0;"><span class="mi" style="color:#a55a5a;">close</span><p>Gradient rainbow dla CTA</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="callout-blue callout mt2">
+      <p><strong>Test pratyczny:</strong> patrz na swoją stronę w skali szarości (DevTools → Rendering → Emulate vision deficiency). Jeśli interfejs nadal działa — kolor jest dodatkiem, nie jedynym kanałem komunikacji.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S10 — LAYOUT ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Layout</span>
+  <div class="reveal w960">
+    <h3>03 · Struktura</h3>
+    <h2>Przewidywalny układ</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Przewidywalność to <em>najważniejsza zasada</em>. Osoby w spektrum często polegają na rutynach i mentalnych mapach interfejsu. Niespodzianki — nawet pozytywne — mogą być źródłem stresu.</p>
+        <div class="callout mt2">
+          <p><strong>Reguła:</strong> jeśli element pojawia się na jednej podstronie w lewym górnym rogu, na innych podstronach też powinien być w lewym górnym rogu.</p>
+        </div>
+      </div>
+      <div>
+        <div class="li-list">
+          <div class="li"><span class="mi">grid_view</span><p><strong>Spójna nawigacja</strong> — to samo menu w tym samym miejscu na każdej stronie</p></div>
+          <div class="li"><span class="mi">format_indent_increase</span><p><strong>Wyraźna hierarchia</strong> — jedna myśl = jedna sekcja, dużo whitespace</p></div>
+          <div class="li"><span class="mi">view_module</span><p><strong>Krótkie sekcje</strong> — chunkowanie treści, nagłówki co 2–3 akapity</p></div>
+          <div class="li"><span class="mi">linear_scale</span><p><strong>Linearne ścieżki zadań</strong> — formularz w jednej kolumnie, krok po kroku</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S11 — ANIMACJE ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Ruch</span>
+  <div class="reveal w960">
+    <h3>04 · Animacje</h3>
+    <h2>Ruch — mniej znaczy więcej</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Ruch przyciąga uwagę nawet bez naszej woli. Dla osoby w spektrum może to oznaczać, że nie może skupić się na czytaniu, dopóki animacja się nie zatrzyma.</p>
+        <div class="li-list mt2">
+          <div class="li"><span class="mi">motion_photos_off</span><p><strong>Zero autoplay</strong> — wideo, karuzele, slidery wymagają kliknięcia</p></div>
+          <div class="li"><span class="mi">pause_circle</span><p><strong>Pauza zawsze dostępna</strong> — jeśli już animacja, daj kontrolę</p></div>
+          <div class="li"><span class="mi">timer_off</span><p><strong>Krótkie przejścia</strong> — fade max 300ms, nic ponad to</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="callout-warm">
+          <p><strong>Obowiązkowo wspieraj <em>prefers-reduced-motion</em>:</strong> system użytkownika (macOS, Windows, iOS, Android) ma takie ustawienie. Twój CSS musi go respektować.</p>
+        </div>
+        <div style="font-family:'Courier New',monospace;font-size:.78rem;background:var(--bg2);padding:1rem 1.2rem;border-radius:6px;margin-top:1rem;line-height:1.7;color:var(--slate);">
+@media (prefers-reduced-motion: reduce) {<br>
+&nbsp;&nbsp;* { animation: none !important; }<br>
+&nbsp;&nbsp;* { transition: none !important; }<br>
+}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S12 — JĘZYK ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Język</span>
+  <div class="reveal w960">
+    <h3>05 · Komunikacja</h3>
+    <h2>Język prosty i dosłowny</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Wiele osób w spektrum przetwarza język <em>dosłownie</em>. Idiomy, sarkazm, dwuznaczne komunikaty mogą być mylące lub stresujące.</p>
+        <div class="li-list mt2">
+          <div class="li"><span class="mi">format_clear</span><p><strong>Krótkie zdania</strong> — jedna myśl na zdanie, czynne strony</p></div>
+          <div class="li"><span class="mi">translate</span><p><strong>Konkretny język</strong> — „Kliknij Wyślij" zamiast „Daj nam znać"</p></div>
+          <div class="li"><span class="mi">error_outline</span><p><strong>Komunikaty błędów</strong> — co poszło nie tak + jak to naprawić</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="card-dont card mb1">
+          <p style="font-size:.82rem;"><strong style="color:#a55a5a;">Nie:</strong> „Coś poszło nie tak. Spróbuj ponownie później."</p>
+        </div>
+        <div class="card-do card mt2">
+          <p style="font-size:.82rem;"><strong style="color:var(--sage-d);">Tak:</strong> „Hasło musi mieć minimum 8 znaków, w tym jedną cyfrę. Spróbuj jeszcze raz."</p>
+        </div>
+        <div class="callout-blue callout mt2">
+          <p><strong>Wskazówka:</strong> testuj swoje teksty Czytelnikiem Mowy Łatwej (poziom A2). Jeśli komunikat jest niejasny dla osoby uczącej się polskiego — będzie też trudny dla osoby w spektrum.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S13 — PERSONALIZACJA ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Zasady · Personalizacja</span>
+  <div class="reveal w960">
+    <h3>06 · Kontrola</h3>
+    <h2>Daj użytkownikowi wybór</h2>
+    <div class="rule"></div>
+    <div class="tc mt2">
+      <div>
+        <p>Spektrum to spektrum. Nie ma jednego „idealnego" projektu, który zadowoli wszystkich. Dlatego najlepsze interfejsy <em>oddają kontrolę użytkownikowi</em>.</p>
+        <div class="callout mt2">
+          <p><strong>Zasada projektanta:</strong> nie decyduj za użytkownika, co jest dla niego komfortowe. Daj mu narzędzia do dostosowania interfejsu.</p>
+        </div>
+      </div>
+      <div>
+        <div class="li-list">
+          <div class="li"><span class="mi">dark_mode</span><p><strong>Tryb ciemny / jasny</strong> — przełącznik, nie tylko system default</p></div>
+          <div class="li"><span class="mi">format_size</span><p><strong>Skalowanie tekstu</strong> — strona musi działać przy 200% zoom</p></div>
+          <div class="li"><span class="mi">animation</span><p><strong>Wyłączanie animacji</strong> — szanuj ustawienie systemowe</p></div>
+          <div class="li"><span class="mi">notifications_off</span><p><strong>Kontrola powiadomień</strong> — toast, dźwięki, vibracje</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S14 — CHECKLIST ═══════════ -->
+<div class="slide s-light" data-type="light">
+  <span class="lbl">Podsumowanie · Checklist</span>
+  <div class="reveal w960">
+    <h3>Praktyka</h3>
+    <h2>Checklist projektanta</h2>
+    <div class="rule"></div>
+    <div class="g2 mt2">
+      <div>
+        <h4 style="font-family:'Lora',serif;font-size:1rem;color:var(--sage-d);margin-bottom:.6rem;">Wizualnie</h4>
+        <div class="li-list" style="gap:.45rem;">
+          <div class="li" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Kontrast min. 4.5:1 dla tekstu</p></div>
+          <div class="li" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Stonowana paleta, off-white tła</p></div>
+          <div class="li" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Czcionka 16px+ z interlinią 1.5+</p></div>
+          <div class="li" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Brak migoczących elementów</p></div>
+          <div class="li" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>prefers-reduced-motion respektowane</p></div>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-family:'Lora',serif;font-size:1rem;color:var(--blue-d);margin-bottom:.6rem;">Strukturalnie</h4>
+        <div class="li-list" style="gap:.45rem;">
+          <div class="li li-blue" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Spójna nawigacja na każdej stronie</p></div>
+          <div class="li li-blue" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Ikony zawsze z etykietą</p></div>
+          <div class="li li-blue" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Język prosty, dosłowny, bez metafor</p></div>
+          <div class="li li-blue" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Komunikaty błędów konkretne i pomocne</p></div>
+          <div class="li li-blue" style="padding:.55rem .9rem;"><span class="mi">check_box_outline_blank</span><p>Brak limitów czasu lub możliwość ich wydłużenia</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ S15 — ZAMKNIĘCIE ═══════════ -->
+<div class="slide s-dark s-close" data-type="dark">
+  <div class="reveal" style="display:flex;flex-direction:column;align-items:center;">
+    <div class="kicker" style="font-size:.72rem;font-weight:700;color:var(--caramel);letter-spacing:.28em;text-transform:uppercase;margin-bottom:1.2rem;">Na zakończenie</div>
+    <h1>Spokojny design<br>jest dobry dla wszystkich</h1>
+    <div class="rule rule-c" style="background:var(--caramel);"></div>
+    <p style="max-width:560px;text-align:center;font-family:'Lora',serif;font-style:italic;font-size:1.08rem;line-height:1.6;color:rgba(255,255,255,0.75);">
+      Przewidywalna struktura, czytelna typografia, kontrola użytkownika nad ruchem i hałasem — to nie są „dodatki dla niepełnosprawnych".<br>To po prostu <em style="color:var(--caramel);font-style:normal;font-weight:700;">lepszy design</em>.
+    </p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ═══ UI ═══ -->
+<div class="progress-bar" id="pb"></div>
+<div class="fade-overlay" id="fade"></div>
+<div class="nav">
+  <button class="nbtn" id="prev" aria-label="Poprzedni slajd"><span class="mi">chevron_left</span></button>
+  <span class="ncount" id="cnt"></span>
+  <button class="nbtn" id="next" aria-label="Następny slajd"><span class="mi">chevron_right</span></button>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let cur = 0;
+
+  const pb   = document.getElementById('pb');
+  const cnt  = document.getElementById('cnt');
+  const fade = document.getElementById('fade');
+
+  function go(dir){
+    const oldIdx = cur;
+    const newIdx = Math.max(0, Math.min(total-1, cur + dir));
+    if(newIdx === oldIdx) return;
+    cur = newIdx;
+
+    const oldSlide = slides[oldIdx];
+    const newSlide = slides[cur];
+    const oldType  = oldSlide.dataset.type || 'light';
+    const newType  = newSlide.dataset.type || 'light';
+    const cross    = oldType !== newType;
+
+    // Soft cross-fade for cross-type, simple fade for same-type
+    if(cross){
+      fade.classList.add('on');
+      setTimeout(()=>{
+        oldSlide.classList.remove('active');
+        newSlide.classList.add('active');
+        setTimeout(()=>{ fade.classList.remove('on'); }, 220);
+      }, 200);
+    } else {
+      oldSlide.classList.remove('active');
+      newSlide.classList.add('active');
+    }
+
+    pb.style.width = ((cur+1)/total*100)+'%';
+    cnt.textContent = (cur+1)+' / '+total;
+  }
+
+  pb.style.width = (1/total*100)+'%';
+  cnt.textContent = '1 / '+total;
+
+  document.getElementById('prev').onclick = ()=> go(-1);
+  document.getElementById('next').onclick = ()=> go(1);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '||e.key==='Enter'){
+      e.preventDefault(); go(1);
+    }
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='Backspace'){
+      e.preventDefault(); go(-1);
+    }
+    if(e.key==='Home'){ e.preventDefault(); go(-cur); }
+    if(e.key==='End'){ e.preventDefault(); go(total-1-cur); }
+  });
+})();
+</script>
+</body>
+</html>

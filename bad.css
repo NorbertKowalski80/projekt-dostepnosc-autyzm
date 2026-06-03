@@ -37,7 +37,7 @@ button {
 
 .fake-nav {
   display: grid;
-  grid-template-columns: 2fr 1fr 3fr 1fr;
+  grid-template-columns: 2fr 1fr 3fr 1fr 0.8fr;
   gap: 3px;
   padding: 8px;
   color: black;

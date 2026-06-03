@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Norbert Kowalski">
+    <title>Raport NVDA i ARIA APG</title>
+    <link rel="stylesheet" href="friendly.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+    <header class="site-header">
+      <nav aria-label="Główna nawigacja">
+        <a href="index.html">Start</a>
+        <a href="friendly.html">Cicha Biblioteka</a>
+        <a href="bad.html">TurboPlan</a>
+        <a href="omowienie.html">Analiza</a>
+        <a href="aria-apg.html">ARIA APG</a>
+        <a href="raport-nvda.html" aria-current="page">Raport NVDA</a>
+      </nav>
+    </header>
+
+    <main id="main" class="article-layout">
+      <h1>Raport z testu czytnikiem NVDA</h1>
+      <p>
+        Celem testu było porównanie korzystania ze standardowej strony sklepu
+        internetowego oraz prostej strony przygotowanej zgodnie z dobrymi
+        praktykami dostępności i ARIA APG.
+      </p>
+
+      <section class="panel">
+        <h2>Przygotowanie testu</h2>
+        <ul>
+          <li>Czytnik ekranu: NVDA pobrany ze strony NV Access.</li>
+          <li>Język interfejsu i mowy: polski.</li>
+          <li>Przeglądarka: Chrome.</li>
+          <li>Sposób obsługi: klawiatura i komunikaty czytnika ekranu.</li>
+          <li>Zadanie: znaleźć cenę ławki ogrodowej i sprawdzić podstawowe informacje o produkcie.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Test na stronie marketu budowlanego</h2>
+        <p>
+          Podczas testu typowej strony sklepu największym problemem była liczba
+          elementów, które czytnik musiał odczytać przed dojściem do właściwego
+          produktu. Nawigacja zawierała wiele kategorii, reklam, banerów,
+          filtrów i elementów promocyjnych.
+        </p>
+        <ul>
+          <li>Trudno było szybko odróżnić linki nawigacyjne od linków produktowych.</li>
+          <li>Filtry i sortowanie wymagały wielu przejść klawiszem Tab.</li>
+          <li>Niektóre nazwy linków były mało konkretne, np. „zobacz więcej”.</li>
+          <li>Duża liczba promocji i dodatkowych komunikatów wydłużała ścieżkę do ceny.</li>
+          <li>Największa trudność pojawiła się przy ustaleniu, która cena należy do którego produktu.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Test na stronie Ogród Dostępny</h2>
+        <p>
+          Strona testowa została przygotowana tak, aby zadanie było możliwe do
+          wykonania liniowo: od nagłówka, przez nazwę produktu, cenę, status
+          dostępności i akcje. Czytnik ekranu otrzymuje krótkie i konkretne
+          informacje.
+        </p>
+        <ul>
+          <li>Link „Przejdź do treści” pozwala pominąć menu.</li>
+          <li>Nazwa produktu jest nagłówkiem, więc można ją znaleźć skrótem do nagłówków.</li>
+          <li>Cena ma dodatkowy opis `aria-label`, aby czytnik odczytał ją jednoznacznie.</li>
+          <li>Status dodania do koszyka jest przekazywany przez `aria-live`.</li>
+          <li>Panel szczegółów używa `aria-expanded` i `aria-controls`.</li>
+          <li>Dialog dostawy ma `role="dialog"`, `aria-modal="true"` i kontrolę fokusu.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Zastosowane praktyki ARIA APG</h2>
+        <ul>
+          <li>Użyto semantycznych landmarków: `header`, `nav`, `main`, `section`, `footer`.</li>
+          <li>Nawigacja ma nazwę dostępną przez `aria-label`.</li>
+          <li>Aktualna podstrona jest oznaczona przez `aria-current="page"`.</li>
+          <li>Komunikaty po akcji są przekazywane przez `aria-live` i `role="status"`.</li>
+          <li>Panel szczegółów wykorzystuje `aria-expanded` oraz `aria-controls`.</li>
+          <li>Dialog używa `role="dialog"`, `aria-modal="true"` i `aria-labelledby`.</li>
+          <li>Po otwarciu dialogu fokus przechodzi do przycisku zamykania.</li>
+          <li>Klawisz Escape zamyka dialog, a fokus wraca do przycisku otwierającego.</li>
+          <li>Tab i Shift+Tab pozostają w obrębie otwartego dialogu.</li>
+          <li>Formularz ma `fieldset`, `legend`, etykiety oraz jednoznaczne nazwy pól.</li>
+        </ul>
+      </section>
+
+      <section class="panel comparison">
+        <h2>Porównanie komfortu użytkowania</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Obszar</th>
+              <th>Typowa strona marketu</th>
+              <th>Strona ARIA APG</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nawigacja</td>
+              <td>Długa, wielopoziomowa i przeładowana linkami.</td>
+              <td>Krótka, stała i opisana etykietą `aria-label`.</td>
+            </tr>
+            <tr>
+              <td>Odnalezienie ceny</td>
+              <td>Wymagało przejścia przez wiele elementów i reklam.</td>
+              <td>Cena jest blisko nagłówka produktu i ma jednoznaczny opis.</td>
+            </tr>
+            <tr>
+              <td>Komunikaty po akcji</td>
+              <td>Nie zawsze było jasne, czy akcja została wykonana.</td>
+              <td>`aria-live` informuje o dodaniu produktu do koszyka.</td>
+            </tr>
+            <tr>
+              <td>Dialogi i panele</td>
+              <td>Fokus może przechodzić w nieoczekiwane miejsca.</td>
+              <td>Dialog przejmuje fokus, obsługuje Escape i oddaje fokus po zamknięciu.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>Najważniejsze wnioski</h2>
+        <p>
+          Największe problemy pojawiają się wtedy, gdy strona ma dużo elementów,
+          ale nie ma jasnej struktury. Dla osoby korzystającej z czytnika ekranu
+          każdy zbędny baner, nieopisany przycisk lub powtarzalny link wydłuża
+          drogę do celu.
+        </p>
+        <p>
+          Przy projektowaniu trzeba zwracać uwagę przede wszystkim na kolejność
+          fokusu, sensowne nazwy linków i przycisków, strukturę nagłówków,
+          komunikaty po wykonaniu akcji oraz poprawną obsługę komponentów
+          interaktywnych zgodnie z ARIA APG.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Źródła</h2>
+        <ul>
+          <li>NV Access: oficjalna strona pobierania NVDA.</li>
+          <li>W3C WAI: ARIA Authoring Practices Guide.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <p>Autor projektu: Norbert Kowalski</p>
+    </footer>
+  </body>
+</html>

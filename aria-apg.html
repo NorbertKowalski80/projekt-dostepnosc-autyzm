@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Norbert Kowalski">
+    <title>Ogród Dostępny - przykład ARIA APG</title>
+    <link rel="stylesheet" href="aria.css">
+    <script src="aria.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+
+    <header class="site-header">
+      <nav aria-label="Główna nawigacja">
+        <a href="index.html">Start</a>
+        <a href="friendly.html">Cicha Biblioteka</a>
+        <a href="bad.html">TurboPlan</a>
+        <a href="omowienie.html">Analiza</a>
+        <a href="aria-apg.html" aria-current="page">ARIA APG</a>
+        <a href="raport-nvda.html">Raport NVDA</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Przykład dostępnego interfejsu</p>
+        <h1 id="page-title">Ogród Dostępny</h1>
+        <p>
+          Prosta strona produktowa przygotowana tak, aby można było sprawdzić
+          cenę produktu przy użyciu klawiatury i czytnika ekranu.
+        </p>
+      </section>
+
+      <section class="layout" aria-labelledby="product-title">
+        <article class="product">
+          <div class="product-media" role="img" aria-label="Drewniana ławka ogrodowa z oparciem"></div>
+          <div>
+            <p class="eyebrow">Meble ogrodowe</p>
+            <h2 id="product-title">Ławka ogrodowa Brzoza 120 cm</h2>
+            <p>
+              Stabilna ławka do ogrodu, na balkon lub taras. Produkt ma prosty
+              opis, widoczną cenę i jasne informacje o dostępności.
+            </p>
+            <p class="price" aria-label="Cena 249 złotych 99 groszy">249,99 zł</p>
+            <p class="stock" role="status">Dostępna online i w sklepie w Warszawie.</p>
+
+            <div class="actions" aria-label="Akcje produktu">
+              <button type="button" id="add-to-cart">Dodaj do koszyka</button>
+              <button type="button" id="details-button" aria-expanded="false" aria-controls="details-panel">
+                Pokaż szczegóły
+              </button>
+            </div>
+
+            <div id="cart-status" class="sr-only" aria-live="polite"></div>
+          </div>
+        </article>
+
+        <aside class="panel" aria-labelledby="task-title">
+          <h2 id="task-title">Zadanie testowe</h2>
+          <ol>
+            <li>Przejdź do głównej treści linkiem „Przejdź do treści”.</li>
+            <li>Znajdź nazwę produktu.</li>
+            <li>Sprawdź cenę ławki ogrodowej.</li>
+            <li>Dodaj produkt do koszyka.</li>
+          </ol>
+        </aside>
+      </section>
+
+      <section id="details-panel" class="panel hidden" aria-labelledby="details-title">
+        <h2 id="details-title">Szczegóły produktu</h2>
+        <ul>
+          <li>Materiał: drewno sosnowe impregnowane.</li>
+          <li>Szerokość: 120 cm.</li>
+          <li>Maksymalne obciążenie: 220 kg.</li>
+          <li>Dostawa: 2-3 dni robocze.</li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="filters-title">
+        <h2 id="filters-title">Preferencje zakupu</h2>
+        <form id="preference-form">
+          <fieldset>
+            <legend>Sposób odbioru</legend>
+            <label>
+              <input type="radio" name="delivery" value="store" checked>
+              Odbiór w sklepie
+            </label>
+            <label>
+              <input type="radio" name="delivery" value="courier">
+              Dostawa kurierem
+            </label>
+          </fieldset>
+
+          <label for="quantity">Liczba sztuk</label>
+          <select id="quantity" name="quantity">
+            <option value="1">1 sztuka</option>
+            <option value="2">2 sztuki</option>
+            <option value="3">3 sztuki</option>
+          </select>
+
+          <button type="submit">Zapisz preferencje</button>
+        </form>
+        <p id="form-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="dialog-title-section">
+        <h2 id="dialog-title-section">Dialog zgodny z zasadami APG</h2>
+        <p>
+          Przycisk otwiera okno dialogowe. Fokus przechodzi do dialogu, klawisz
+          Escape zamyka okno, a po zamknięciu fokus wraca do przycisku.
+        </p>
+        <button type="button" id="open-dialog">Sprawdź warunki dostawy</button>
+      </section>
+    </main>
+
+    <div id="delivery-dialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <div class="dialog">
+        <h2 id="dialog-title">Warunki dostawy</h2>
+        <p>Dostawa kurierem kosztuje 29,99 zł. Odbiór w sklepie jest bezpłatny.</p>
+        <button type="button" id="close-dialog">Zamknij</button>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <p>Autor projektu: Norbert Kowalski</p>
+    </footer>
+  </body>
+</html>

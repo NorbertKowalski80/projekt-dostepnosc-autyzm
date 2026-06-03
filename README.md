@@ -11,6 +11,8 @@ Dodatkowo:
 
 - `index.html` - strona startowa z przejściem do obu koncepcji.
 - `omowienie.html` - analiza zastosowanych i złamanych zasad.
+- `aria-apg.html` - prosta strona produktowa zgodna z dobrymi praktykami ARIA APG.
+- `raport-nvda.html` - raport z porównania korzystania ze strony z czytnikiem NVDA.
 - `friendly.png` i `bad.png` - zrzuty ekranu obu wersji.
 
 ## Zrzuty ekranu
@@ -34,3 +36,5 @@ Przykładowe linki po opublikowaniu:
 - Cicha Biblioteka: `https://twoj-login.github.io/nazwa-repozytorium/friendly.html`
 - TurboPlan: `https://twoj-login.github.io/nazwa-repozytorium/bad.html`
 - Analiza: `https://twoj-login.github.io/nazwa-repozytorium/omowienie.html`
+- ARIA APG: `https://twoj-login.github.io/nazwa-repozytorium/aria-apg.html`
+- Raport NVDA: `https://twoj-login.github.io/nazwa-repozytorium/raport-nvda.html`
